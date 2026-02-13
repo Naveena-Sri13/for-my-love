@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story</title>
+<style>
+  /* Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+
+  body, html {
+    height: 100%; 
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background: #ffe4e6;
+  }
+
+  section { width: 100%; height: 100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; }
+
+  button {
+    padding: 15px 30px;
+    border:none;
+    border-radius:50px;
+    font-size:1.2rem;
+    cursor:pointer;
+    margin:10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(255,192,203,0.5);
+  }
+
+  /* Buttons style */
+  .enter-btn { background:#ffc0cb; color:white; }
+  .yes-btn { background:#ff69b4; color:white; }
+  .no-btn { background:#ffb6c1; color:white; }
+
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,182,193,0.7);
+  }
+
+  /* Canvas slide style */
+  #canvasSlide {
+    background: url('canvas_slide.jpg') center/cover no-repeat;
+  }
+
+  /* Valentine Slide */
+  #valentine {
+    flex-direction: column;
+    text-align:center;
+    padding: 20px;
+    background: #ffe4e6;
+  }
+
+  #valentine h1 {
+    font-size:2rem;
+    margin-bottom:30px;
+    color:#ff1493;
+  }
+
+  /* Heart animation container */
+  #hearts {
+    position: absolute;
+    top:0; left:0; width:100%; height:100%;
+    pointer-events:none;
+    overflow:hidden;
+  }
+
+  .heart {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+    transform: rotate(-45deg);
+    animation: floatUp 5s ease-in-out forwards;
+  }
+
+  .heart:before,
+  .heart:after {
+    content: "";
+    position: absolute;
+    width: 30px; height:30px;
+    background: radial-gradient(circle at 30% 30%, #ff69b4, #ff1493);
+    border-radius: 50%;
+  }
+
+  .heart:before { top:-15px; left:0; }
+  .heart:after { top:0; left:15px; }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(-45deg); opacity:1; }
+    100% { transform: translateY(-800px) rotate(-45deg); opacity:0; }
+  }
+
+  /* No-option popup */
+  #noOption {
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:#ffe4e6;
+    height:100vh;
+    font-size:2rem;
+    color:#ff1493;
+  }
+</style>
+</head>
+<body>
+
+<!-- First Opening Page -->
+<section id="opening">
+  <button class="enter-btn" onclick="nextSlide()">Enter My Heart 💗</button>
+</section>
+
+<!-- Canvas Slide -->
+<section id="canvasSlide">
+  <button style="padding:10px 20px; background:rgba(255,182,193,0.7); border-radius:20px;" onclick="nextSlide()">Next 💖</button>
+</section>
+
+<!-- Valentine Slide -->
+<section id="valentine">
+  <h1>Will you be my Valentine?<br>For every February of my lifetime</h1>
+  <div>
+    <button class="yes-btn" onclick="yesClicked()">Yes!!! 🩷</button>
+    <button class="no-btn" onclick="noClicked()">Thought you have another option!! 😼</button>
+  </div>
+  <div id="hearts"></div>
+</section>
+
+<!-- No-option popup -->
+<section id="noOption">
+  <div>☺️🔪</div>
+  <div>No other option</div>
+</section>
+
+<script>
+  const slides = ['opening', 'canvasSlide', 'valentine'];
+  let currentSlide = 0;
+
+  function nextSlide() {
+    document.getElementById(slides[currentSlide]).style.display='none';
+    currentSlide++;
+    document.getElementById(slides[currentSlide]).style.display='flex';
+  }
+
+  function yesClicked() {
+    const heartContainer = document.getElementById('hearts');
+    // generate multiple hearts
+    for(let i=0;i<50;i++){
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random()*100 + '%';
+      heart.style.animationDuration = (4 + Math.random()*3)+'s';
+      heart.style.opacity = Math.random();
+      heartContainer.appendChild(heart);
+      setTimeout(()=>heart.remove(),7000);
+    }
+  }
+
+  function noClicked() {
+    document.getElementById('valentine').style.display='none';
+    document.getElementById('noOption').style.display='flex';
+  }
+
+  // Initialize slides
+  slides.forEach((id,index)=>{
+    if(index!==0) document.getElementById(id).style.display='none';
+  });
+</script>
+
+</body>
+</html>
